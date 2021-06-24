@@ -119,10 +119,10 @@
         <input id="button1" type="button" value="读取" name="btnRead" @click="readCard()" />
         <input id="button2" type="reset" value="重置" name="btnReset" />
         <input id="button3" type="button" value="保存数据" name="btnData" @click="SetData()" />
-        <input id="button4" type="button" value="认证核验" name="btnCheckFace" @click="CheckFace()" />
       </form>
     </div>
     <div>
+      <br/>
       <button @click="changeCharm()">切换谷歌浏览器</button>
       <div>
         <video id="video" width="500px" height="500px" autoplay="autoplay"></video>
@@ -130,6 +130,7 @@
       </div>
       <input type="button" title="开启摄像头" value="开启摄像头" @click="getMedia()" />
       <button id="snap" @click="takePhoto()">拍照</button>
+      <input id="button4" type="button" value="认证核验" name="btnCheckFace" @click="CheckFace()" />
     </div>
   </div>
 </template>
@@ -276,13 +277,11 @@ export default {
         form1.base64Image.value ="";
       }
     },
-
     changeCharm(){
       // eslint-disable-next-line no-undef
       var objShell= new ActiveXObject("WScript.Shell");
       objShell.Run("cmd.exe /c start chrome  http://127.0.0.1:8080/",0,true);
     },
-
     getMedia(){
       let video = document.getElementById("video");
       let constraints = {
@@ -304,6 +303,7 @@ export default {
       let ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, 500, 500);
     },
+
     SetData() {
       console.log('上传数据')
     },
