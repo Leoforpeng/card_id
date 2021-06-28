@@ -136,14 +136,21 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: 'ReadCard',
   data() {
     return {
-      form: {
-        username: '',
-        password: '',
-      },
+      cardNo : '',
+      nameL : '',
+      sexL : '',
+      nationL : '',
+      born : '',
+      address : '',
+      activityLFrom : '',
+      activityLTo : '',
+      avatar : '',
     };
   },
   methods: {
@@ -187,11 +194,21 @@ export default {
 
           form1.activity.value     =obj.Activity();
           form1.activityL.value    =obj.ActivityL();
-          form1.activityLFrom.value=obj.ActivityLFrom;
-          form1.activityLTo.value  =obj.ActivityLTo;
+          form1.activityLFrom.value=obj.ActivityLFrom();
+          form1.activityLTo.value  =obj.ActivityLTo();
 
           form1.passNumber.value="";
           form1.issueCount.value="";
+
+          this.cardNo = obj.CardNo();
+          this.nameL = obj.NameL();
+          this.sexL = obj.SexL();
+          this.nationL = obj.NationL();
+          this.born = obj.Born().slice(0,4) + '-' + obj.Born().slice(4,6) + '-' + obj.Born().slice(6,8);
+          this.address = obj.Address();
+          this.activityLFrom = obj.ActivityLFrom().slice(0,4) + '-' + obj.ActivityLFrom().slice(4,6) + '-' + obj.ActivityLFrom().slice(6,8);
+          this.activityLTo = obj.ActivityLTo().slice(0,4) + '-' + obj.ActivityLTo().slice(4,6) + '-' + obj.ActivityLTo().slice(6,8);
+          this.avatar = obj.PhotoPath + obj.CardNo() + '.bmp'
         }
         else if(2===cardType)
         {
@@ -306,6 +323,32 @@ export default {
 
     SetData() {
       console.log('上传数据')
+      console.log(this.cardNo)
+      console.log(this.nameL)
+      console.log(this.sexL)
+      console.log(this.nationL)
+      console.log(this.born)
+      console.log(this.address)
+      console.log(this.activityLFrom)
+      console.log(this.activityLTo)
+      console.log(this.avatar)
+
+      axios.post("http://127.0.0.1:8000/v1/hr/idcards/", {
+        id : this.cardNo,
+        name : this.nameL,
+        gender : this.sexL,
+        nation : this.nationL,
+        birthday : this.born,
+        address : this.address,
+        effective_start : this.activityLFrom,
+        effective_end : this.activityLTo,
+        avatar : this.avatar,
+          }).then(res =>{
+        const data = res.data;
+        console.log(data)
+        }).catch(err => {
+        console.log(err);
+      });
     },
     CheckFace(){
       console.log('人证核验')

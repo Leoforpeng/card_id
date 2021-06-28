@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <ReadCard msg="Welcome to Your Vue.js App"/>
+    <ReadCard />
   </div>
 </template>
 
