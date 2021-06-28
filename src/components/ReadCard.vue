@@ -332,18 +332,17 @@ export default {
       console.log(this.activityLFrom)
       console.log(this.activityLTo)
       console.log(this.avatar)
-
-      axios.post("http://127.0.0.1:8000/v1/hr/idcards/", {
-        id : this.cardNo,
-        name : this.nameL,
-        gender : this.sexL,
-        nation : this.nationL,
-        birthday : this.born,
-        address : this.address,
-        effective_start : this.activityLFrom,
-        effective_end : this.activityLTo,
-        avatar : this.avatar,
-          }).then(res =>{
+      let fd = new FormData()
+      fd.append('id', this.cardNo)
+      fd.append('name', this.nameL)
+      fd.append('gender', this.sexL)
+      fd.append('nation', this.nationL)
+      fd.append('birthday', this.born)
+      fd.append('address', this.address)
+      fd.append('effective_start', this.activityLFrom)
+      fd.append('effective_end', this.activityLTo)
+      fd.append('avatar', this.avatar)
+      axios.post("http://127.0.0.1:8000/v1/hr/idcards/", fd).then(res =>{
         const data = res.data;
         console.log(data)
         }).catch(err => {
