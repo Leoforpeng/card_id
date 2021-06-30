@@ -110,7 +110,7 @@
           </tr>
           <tr>
             <td class="title1">照片保存路径</td>
-            <td class="textbox1"><input type="text" size="30" name="photoPath" value="C:\Users\IT\WebstormProjects\card_id\src\assets" /></td>
+            <td class="textbox1"><input type="text" size="30" name="photoPath" value="" /></td>
             <td class="title1">模块序列号</td>
             <td class="textbox1"><input type="text" size="40" name="samid" /></td>
           </tr>
@@ -136,7 +136,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: 'ReadCard',
@@ -171,7 +170,6 @@ export default {
       obj.Flag=0;
 //设置照片保存路径。照片文件名：(身份证号).bmp。默认不保存。
       obj.PhotoPath=form1.photoPath.value;
-      console.log(obj.PhotoPath)
 //读卡
       var rst = obj.ReadCard();
       if(0x90===rst)
@@ -208,7 +206,7 @@ export default {
           this.address = obj.Address();
           this.activityLFrom = obj.ActivityLFrom().slice(0,4) + '-' + obj.ActivityLFrom().slice(4,6) + '-' + obj.ActivityLFrom().slice(6,8);
           this.activityLTo = obj.ActivityLTo().slice(0,4) + '-' + obj.ActivityLTo().slice(4,6) + '-' + obj.ActivityLTo().slice(6,8);
-          this.avatar = obj.PhotoPath + obj.CardNo() + '.bmp'
+          this.avatar = obj.GetImage()
         }
         else if(2===cardType)
         {
@@ -322,16 +320,8 @@ export default {
     },
 
     SetData() {
-      console.log('上传数据')
-      console.log(this.cardNo)
-      console.log(this.nameL)
-      console.log(this.sexL)
-      console.log(this.nationL)
-      console.log(this.born)
-      console.log(this.address)
-      console.log(this.activityLFrom)
-      console.log(this.activityLTo)
-      console.log(this.avatar)
+      alert('正在核验数据，请稍等......')
+
       let fd = new FormData()
       fd.append('id', this.cardNo)
       fd.append('name', this.nameL)
@@ -342,10 +332,15 @@ export default {
       fd.append('effective_start', this.activityLFrom)
       fd.append('effective_end', this.activityLTo)
       fd.append('avatar', this.avatar)
-      axios.post("http://127.0.0.1:8000/v1/hr/idcards/", fd).then(res =>{
+      this.$http.post("http://127.0.0.1:8000/v1/hr/idcardData/", fd).then(res =>{
         const data = res.data;
-        console.log(data)
-        }).catch(err => {
+        if (data.msg === 200){
+          alert('上传成功!')
+        }
+        else {
+          alert('人员已存在，请检查!')
+        }
+        }).catch(err =>{
         console.log(err);
       });
     },
