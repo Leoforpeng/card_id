@@ -68,7 +68,7 @@
           </tr>
           <tr>
             <td class="title1">身份号码</td>
-            <td class="textbox1"><input type="text" size="30" name="cardNo" /></td>
+            <td class="textbox1"><input id="cardID" type="text" size="30" name="cardNo" /></td>
             <td class="title1">终止日期</td>
             <td class="textbox1"><input type="text" size="30" name="prExpiryDate" /></td>
           </tr>
@@ -124,12 +124,14 @@
     <div>
       <br/>
       <button @click="changeCharm()">切换谷歌浏览器</button>
+      <br/>
+      <input id="newID" type="text" size="30" name="cardSize" />
+      <button>确认身份证号码</button>
       <div>
         <video id="video" width="500px" height="500px" autoplay="autoplay"></video>
         <canvas id="canvas" width="500px" height="500px"></canvas>
       </div>
       <input type="button" title="开启摄像头" value="开启摄像头" @click="getMedia()" />
-      <button id="snap" @click="takePhoto()">拍照</button>
       <input id="button4" type="button" value="认证核验" name="btnCheckFace" @click="CheckFace()" />
     </div>
   </div>
@@ -293,9 +295,23 @@ export default {
       }
     },
     changeCharm(){
-      // eslint-disable-next-line no-undef
-      var objShell= new ActiveXObject("WScript.Shell");
-      objShell.Run("cmd.exe /c start chrome  http://127.0.0.1:8080/",0,true);
+      // 获取输入框元素
+      let input = document.getElementById('cardID')
+      // 选中元素中的文本（必须可编辑）
+      input.select()
+      // 检测复制命令返回值（是否可用）
+      if(document.execCommand('copy')){
+        document.execCommand('copy')//执行复制到剪贴板
+        window.alert('已复制！请在谷歌页面中的输入框粘贴并提交确认')//反馈信息
+        // eslint-disable-next-line no-undef
+        var objShell= new ActiveXObject("WScript.Shell");
+        objShell.Run("cmd.exe /c start chrome  http://127.0.0.1:8080/",0,true);
+      }
+
+      // 无法复制（不可用）
+      else{
+        window.alert('复制失败！请手动切换谷歌浏览器，并复制身份证号码填入！')//反馈信息
+      }
     },
     getMedia(){
       let video = document.getElementById("video");
@@ -310,13 +326,6 @@ export default {
       }).catch(function (PermissionDeniedError) {
         console.log(PermissionDeniedError);
       })
-    },
-    takePhoto() {
-      let video = document.getElementById("video");
-      //获得Canvas对象
-      let canvas = document.getElementById("canvas");
-      let ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, 500, 500);
     },
 
     SetData() {
@@ -344,8 +353,43 @@ export default {
         console.log(err);
       });
     },
+
     CheckFace(){
+      console.log('拍摄照片~')
+      let video = document.getElementById("video");
+      //获得Canvas对象
+      let canvas = document.getElementById("canvas");
+      // 打印
+      let ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, 500, 500);
+      // 转换成base64
+      let fileNow = canvas.toDataURL('image/jpeg',1);
+      // base64转换成Blod
+      var arr = fileNow.split(','), mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+      while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      let files = new Blob([u8arr], {type:mime})
+
       console.log('人证核验')
+      // 准备核验
+      let fd_check = new FormData()
+      let newID = document.getElementById('newID').value
+      fd_check.append('id', newID)
+      fd_check.append('unknown_image', files)
+      console.log(fd_check.get('unknown_image'))
+      this.$http.post("http://127.0.0.1:8000/v1/hr/compareFace/", fd_check).then(res =>{
+        const data = res.data;
+        if (data.data === 'True'){
+          alert('核验成功!')
+        }
+        else {
+          alert('核验失败，请重新核验!')
+        }
+      }).catch(err =>{
+        console.log(err);
+      });
     }
   }
 }
