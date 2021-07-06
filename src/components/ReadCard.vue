@@ -316,8 +316,8 @@ export default {
     getMedia(){
       let video = document.getElementById("video");
       let constraints = {
-        video: {width: 500, height: 500},
-        audio: true
+        video: {width: 500, height: 500, deviceId: 'd6ac6f613b25af4a5765e694b1b9384fef1867fc8c3df6accabc57042ad6ee54'},
+        audio: false
       };
       let promise = navigator.mediaDevices.getUserMedia(constraints);
       promise.then(function (MediaStream) {
@@ -326,6 +326,23 @@ export default {
       }).catch(function (PermissionDeniedError) {
         console.log(PermissionDeniedError);
       })
+      // 获取所有摄像头列表
+      const videoArr = []
+      navigator.mediaDevices.enumerateDevices().then(function (devices) {
+        console.log(devices)
+        devices.forEach(function (device) {
+          if (device.kind === 'videoinput'){
+            videoArr.push({
+              'label': device.label,
+              'id': device.deviceId
+            })
+          }
+        });
+        console.log(videoArr[1])
+      }).catch(function (err) {
+        alert(err.name + ':' + err.message);
+      });
+      // 生成下拉框
     },
 
     SetData() {
@@ -343,12 +360,8 @@ export default {
       fd.append('avatar', this.avatar)
       this.$http.post("http://127.0.0.1:8000/v1/hr/idcardData/", fd).then(res =>{
         const data = res.data;
-        if (data.msg === 200){
-          alert('上传成功!')
-        }
-        else {
-          alert('人员已存在，请检查!')
-        }
+        alert('上传成功!')
+        console.log(data)
         }).catch(err =>{
         console.log(err);
       });
