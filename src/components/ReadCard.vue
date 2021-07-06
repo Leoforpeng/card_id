@@ -132,13 +132,16 @@
         <canvas id="canvas" width="500px" height="500px"></canvas>
       </div>
       <input type="button" title="开启摄像头" value="开启摄像头" @click="getMedia()" />
+      <select id="selects" name="interest" @change="showLabel()">
+        <option v-for="item in this.selectList" :key="item.id">{{ item.label }}</option>
+      </select>
       <input id="button4" type="button" value="认证核验" name="btnCheckFace" @click="CheckFace()" />
     </div>
   </div>
 </template>
 
 <script>
-
+const selectLists = []
 export default {
   name: 'ReadCard',
   data() {
@@ -152,7 +155,32 @@ export default {
       activityLFrom : '',
       activityLTo : '',
       avatar : '',
+      selectList: selectLists,
     };
+  },
+  mounted() {
+    this.showLabel()
+    // 获取所有摄像头列表
+    const videoArr = []
+    navigator.mediaDevices.enumerateDevices().then(function (devices) {
+      devices.forEach(function (device) {
+        if (device.kind === 'videoinput'){
+          videoArr.push({
+            'label': device.label,
+            'id': device.deviceId
+          })
+        }
+      });
+      console.log(videoArr)
+    }).catch(function (err) {
+      alert(err.name + ':' + err.message);
+    });
+    setTimeout(function(){
+      for (let i=0; i<videoArr.length; i++){
+        selectLists.push(videoArr[i])
+      }
+      console.log(selectLists)
+    },200);
   },
   methods: {
     byId(id) {
@@ -313,6 +341,10 @@ export default {
         window.alert('复制失败！请手动切换谷歌浏览器，并复制身份证号码填入！')//反馈信息
       }
     },
+    showLabel(){
+      let s = document.getElementById('selects')
+      console.log(s)
+    },
     getMedia(){
       let video = document.getElementById("video");
       let constraints = {
@@ -326,23 +358,7 @@ export default {
       }).catch(function (PermissionDeniedError) {
         console.log(PermissionDeniedError);
       })
-      // 获取所有摄像头列表
-      const videoArr = []
-      navigator.mediaDevices.enumerateDevices().then(function (devices) {
-        console.log(devices)
-        devices.forEach(function (device) {
-          if (device.kind === 'videoinput'){
-            videoArr.push({
-              'label': device.label,
-              'id': device.deviceId
-            })
-          }
-        });
-        console.log(videoArr[1])
-      }).catch(function (err) {
-        alert(err.name + ':' + err.message);
-      });
-      // 生成下拉框
+
     },
 
     SetData() {
