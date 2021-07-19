@@ -3,7 +3,10 @@
     <div class="title">
       请放置二代居民身份证放置指定识别区
     </div>
-    <div>
+    <div style="height: 400px; width: 600px; background-color: #EBEBEB; display: flex; align-items: center; justify-content: center; text-align: justify; margin:0 auto;">
+      <img src="#" style="opacity: 0" width="600" height="400" alt="引导图" title="请根据引导图操作！">
+    </div>
+    <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
       <object id="CardReader1" codebase="FirstActivex.cab#version=3,0,0,1" classid="CLSID:F225795B-A882-4FBA-934C-805E1B2FBD1B"
               width="153" height="189">
         <param name="_Version" value="65536"/>
@@ -11,10 +14,7 @@
         <param name="_ExtentY" value="1323"/>
         <param name="_StockProps" value="0"/>
       </object>
-      <form id="formCard">
-        <input id="button1" type="button" value="读取" name="btnRead" @click="readCard()" />
-        <input id="button3" type="button" value="保存数据" name="btnData" @click="SetData()" />
-      </form>
+      <input id="button1" type="button" value="读取" name="btnRead" @click="readCard()" title="Ctrl + N 可快速读卡"/>
     </div>
   </div>
 </template>
@@ -34,6 +34,9 @@ export default {
       activityLTo : '',
       avatar : '',
     };
+  },
+  mounted() {
+    this.clickSpace()
   },
   methods: {
     byId(id) {
@@ -69,7 +72,9 @@ export default {
           this.activityLFrom = obj.ActivityLFrom().slice(0,4) + '-' + obj.ActivityLFrom().slice(4,6) + '-' + obj.ActivityLFrom().slice(6,8);
           this.activityLTo = obj.ActivityLTo().slice(0,4) + '-' + obj.ActivityLTo().slice(4,6) + '-' + obj.ActivityLTo().slice(6,8);
           this.avatar = obj.GetImage()
-          alert('读取成功~录入人员：', this.nameL)
+
+          alert('读取成功~录入人员：'+ this.nameL)
+          this.SetData()
         }
         else
         {
@@ -99,7 +104,16 @@ export default {
         console.log(data)
         }).catch(err =>{
         console.log(err);
+        alert('上传失败!请检查网络连接~')
       });
+    },
+    clickSpace(){
+      window.addEventListener("keydown", function(e) {
+        if((e.key==='n'||e.key==='N') &&(navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+          e.preventDefault();
+          document.getElementById('button1').click()
+        }
+      }, false);
     },
   }
 }
@@ -113,8 +127,25 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 40px;
 }
 .content {
   width: 100%;
+}
+
+#button1{
+  width: 270px;
+  height: 40px;
+  border-width: 0;
+  border-radius: 3px;
+  background: #1E90FF;
+  cursor: pointer;
+  outline: none;
+  color: white;
+  font-size: 17px;
+  margin-top: 20px;
+}
+#button1:hover {
+  background: #5599FF;
 }
 </style>
