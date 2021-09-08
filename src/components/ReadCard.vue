@@ -98,7 +98,7 @@ export default {
       fd.append('effective_start', this.activityLFrom)
       fd.append('effective_end', this.activityLTo)
       fd.append('avatar', this.avatar)
-      this.$http.post("http://127.0.0.1:8000/v1/hr/idcardData/", fd).then(res =>{
+      this.$http.post("http://127.0.0.1:8888/v1/hr/idcardData/", fd).then(res =>{
         const data = res.data;
         alert('上传成功!')
         console.log(data)
@@ -109,7 +109,7 @@ export default {
     },
     clickSpace(){
       window.addEventListener("keydown", function(e) {
-        if((e.key==='n'||e.key==='N') &&(navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+        if((e.key==='m'||e.key==='M') &&(navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
           e.preventDefault();
           document.getElementById('button1').click()
         }
