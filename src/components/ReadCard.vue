@@ -4,7 +4,7 @@
       请放置二代居民身份证放置指定识别区
     </div>
     <div style="height: 400px; width: 600px; background-color: #EBEBEB; display: flex; align-items: center; justify-content: center; text-align: justify; margin:0 auto;">
-      <img src="#" style="opacity: 0" width="600" height="400" alt="引导图" title="请根据引导图操作！">
+      <img src="../assets/demo.jpg" width="600" height="400" alt="引导图" title="请根据引导图操作！"/>
     </div>
     <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
       <object id="CardReader1" codebase="FirstActivex.cab#version=3,0,0,1" classid="CLSID:F225795B-A882-4FBA-934C-805E1B2FBD1B"
@@ -12,7 +12,7 @@
         <param name="_Version" value="65536"/>
         <param name="_ExtentX" value="2646"/>
         <param name="_ExtentY" value="1323"/>
-        <param name="_StockProps" value="0"/>M
+        <param name="_StockProps" value="0"/>
       </object>
       <input id="button1" type="button" value="读取" name="btnRead" @click="readCard()" title="Ctrl + M 可快速读卡"/>
     </div>
