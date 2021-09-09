@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="content">
+    <div class="content1">
       <div class="title">
         请放置二代居民身份证放置指定识别区
       </div>
@@ -15,14 +15,106 @@
           <param name="_ExtentY" value="1323"/>
           <param name="_StockProps" value="0"/>
         </object>
-        <input class="button1" type="button" value="读取" name="btnRead" @click="readCard()" title="Ctrl + M 可快速读卡"/>
+        <br/>
+        <a-button id="button1" type="primary" @click="readCard()" title="Ctrl + M 可快速读卡">读取</a-button>
       </div>
     </div>
-    <div>
-      其他信息录入部分
+    <hr/>
+    <div class="content2" style="height: 500px; width: 800px; display: flex; flex-direction: column; justify-content: space-around; background-color: #EBEBEB; text-align: justify; margin:0 auto;">
+      <div style="padding: 10px; display: flex; justify-content: space-between">
+        <div>
+          <p>班组：</p>
+          <a-select default-value="lucy" style="width: 200px" @change="handleChange">
+            <a-select-option value="jack">
+              Jack
+            </a-select-option>
+            <a-select-option value="lucy">
+              Lucy
+            </a-select-option>
+            <a-select-option value="disabled" disabled>
+              Disabled
+            </a-select-option>
+            <a-select-option value="Yiminghe">
+              yiminghe
+            </a-select-option>
+          </a-select>
+        </div>
+        <div>
+          <p>工种：</p>
+          <a-select default-value="lucy" style="width: 200px" @change="handleChange">
+            <a-select-option value="jack">
+              Jack
+            </a-select-option>
+            <a-select-option value="lucy">
+              Lucy
+            </a-select-option>
+            <a-select-option value="disabled" disabled>
+              Disabled
+            </a-select-option>
+            <a-select-option value="Yiminghe">
+              yiminghe
+            </a-select-option>
+          </a-select>
+        </div>
+        <div>
+          <p>手机号：</p>
+          <a-input placeholder="大陆手机号" style="width: 200px" maxLength="11"/>
+        </div>
+      </div>
+      <div style="padding: 10px; display: flex; justify-content: space-between">
+        <div>
+          <p>进场时间：</p>
+          <a-date-picker @change="onChange" style="width: 200px"/>
+        </div>
+        <div>
+          <p>出场时间：</p>
+          <a-date-picker @change="onChange" style="width: 200px"/>
+        </div>
+        <div>
+          <p>添加标签：</p>
+          <a-select default-value="lucy" style="width: 200px" @change="handleChange">
+            <a-select-option value="jack">
+              Jack
+            </a-select-option>
+            <a-select-option value="lucy">
+              Lucy
+            </a-select-option>
+            <a-select-option value="disabled" disabled>
+              Disabled
+            </a-select-option>
+            <a-select-option value="Yiminghe">
+              yiminghe
+            </a-select-option>
+          </a-select>
+        </div>
+      </div>
+      <div style="padding: 10px; display: flex; justify-content: space-between">
+        <div>
+          <p>紧急联系人电话：</p>
+          <a-input placeholder="大陆手机号" style="width: 200px" maxLength="11"/>
+        </div>
+        <div>
+          <p>车牌号：</p>
+          <a-input placeholder="车牌号" style="width: 200px" maxLength="8"/>
+        </div>
+        <div style="width: 200px">
+          <p>是否愿意建立农民工账户：</p>
+          <a-radio default-checked>是</a-radio>
+          <a-radio disabled>否</a-radio>
+        </div>
+      </div>
+      <div style="width: 300px; padding: 10px; display: flex; justify-content: space-between">
+        <p>证书：</p>
+        <a-upload
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            :default-file-list="defaultFileList"
+        >
+          <a-button> <a-icon type="upload" /> 上传 </a-button>
+        </a-upload>
+      </div>
     </div>
-    <div>
-      <button class="button1" @click="toFaceCheck()">直达人脸核验页面</button>
+    <div style="margin-top: 20px; margin-bottom: 20px">
+      <a-button type="primary" @click="toFaceCheck()">直达人脸核验页面</a-button>
     </div>
   </div>
 </template>
@@ -41,6 +133,28 @@ export default {
       activityLFrom : '',
       activityLTo : '',
       avatar : '',
+      defaultFileList: [
+        {
+          uid: '1',
+          name: 'xxx.png',
+          status: 'done',
+          response: 'Server Error 500', // custom error message to show
+          url: 'http://www.baidu.com/xxx.png',
+        },
+        {
+          uid: '2',
+          name: 'yyy.png',
+          status: 'done',
+          url: 'http://www.baidu.com/yyy.png',
+        },
+        {
+          uid: '3',
+          name: 'zzz.png',
+          status: 'error',
+          response: 'Server Error 500', // custom error message to show
+          url: 'http://www.baidu.com/zzz.png',
+        },
+      ],
     };
   },
   mounted() {
@@ -140,23 +254,8 @@ export default {
   justify-content: center;
   margin-bottom: 40px;
 }
-.content {
+.content1 {
   width: 100%;
-}
-
-.button1{
-  width: 270px;
-  height: 40px;
-  border-width: 0;
-  border-radius: 3px;
-  background: #1E90FF;
-  cursor: pointer;
-  outline: none;
-  color: white;
-  font-size: 17px;
-  margin-top: 20px;
-}
-.button1:hover {
-  background: #5599FF;
+  height: 800px;
 }
 </style>
