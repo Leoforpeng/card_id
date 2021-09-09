@@ -1,20 +1,28 @@
 <template>
-  <div class="content">
-    <div class="title">
-      请放置二代居民身份证放置指定识别区
+  <div>
+    <div class="content">
+      <div class="title">
+        请放置二代居民身份证放置指定识别区
+      </div>
+      <div style="height: 400px; width: 600px; background-color: #EBEBEB; display: flex; align-items: center; justify-content: center; text-align: justify; margin:0 auto;">
+        <img src="../assets/demo.jpg" width="600" height="400" alt="引导图" title="请根据引导图操作！"/>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+        <object id="CardReader1" codebase="FirstActivex.cab#version=3,0,0,1" classid="CLSID:F225795B-A882-4FBA-934C-805E1B2FBD1B"
+                width="153" height="189">
+          <param name="_Version" value="65536"/>
+          <param name="_ExtentX" value="2646"/>
+          <param name="_ExtentY" value="1323"/>
+          <param name="_StockProps" value="0"/>
+        </object>
+        <input class="button1" type="button" value="读取" name="btnRead" @click="readCard()" title="Ctrl + M 可快速读卡"/>
+      </div>
     </div>
-    <div style="height: 400px; width: 600px; background-color: #EBEBEB; display: flex; align-items: center; justify-content: center; text-align: justify; margin:0 auto;">
-      <img src="../assets/demo.jpg" width="600" height="400" alt="引导图" title="请根据引导图操作！"/>
+    <div>
+      其他信息录入部分
     </div>
-    <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
-      <object id="CardReader1" codebase="FirstActivex.cab#version=3,0,0,1" classid="CLSID:F225795B-A882-4FBA-934C-805E1B2FBD1B"
-              width="153" height="189">
-        <param name="_Version" value="65536"/>
-        <param name="_ExtentX" value="2646"/>
-        <param name="_ExtentY" value="1323"/>
-        <param name="_StockProps" value="0"/>
-      </object>
-      <input id="button1" type="button" value="读取" name="btnRead" @click="readCard()" title="Ctrl + M 可快速读卡"/>
+    <div>
+      <button class="button1" @click="toFaceCheck()">直达人脸核验页面</button>
     </div>
   </div>
 </template>
@@ -115,6 +123,9 @@ export default {
         }
       }, false);
     },
+    toFaceCheck(){
+      window.location.href="http://127.0.0.1:8000/employee/face_recognition";
+    },
   }
 }
 </script>
@@ -133,7 +144,7 @@ export default {
   width: 100%;
 }
 
-#button1{
+.button1{
   width: 270px;
   height: 40px;
   border-width: 0;
@@ -145,7 +156,7 @@ export default {
   font-size: 17px;
   margin-top: 20px;
 }
-#button1:hover {
+.button1:hover {
   background: #5599FF;
 }
 </style>
