@@ -112,6 +112,7 @@
           <a-button> <a-icon type="upload" /> 上传 </a-button>
         </a-upload>
       </div>
+      <a-button type="primary" @click="Messagesubmit()">提交</a-button>
     </div>
     <div style="margin-top: 20px; margin-bottom: 20px">
       <a-button type="primary" @click="toFaceCheck()">直达人脸核验页面</a-button>
@@ -133,6 +134,16 @@ export default {
       activityLFrom : '',
       activityLTo : '',
       avatar : '',
+
+      company: '',
+      team: '',
+      occupation: '',
+      phone: '',
+      inboundTime: '',
+      outTime: '',
+      carNumber: '',
+      emergencyPhone: '',
+      laborAccount: '',
       defaultFileList: [
         {
           uid: '1',
@@ -240,6 +251,7 @@ export default {
     toFaceCheck(){
       window.location.href="http://127.0.0.1:8000/employee/face_recognition";
     },
+    Messagesubmit(){}
   }
 }
 </script>
