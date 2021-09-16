@@ -58,7 +58,7 @@
         </div>
         <div>
           <p>手机号：</p>
-          <a-input v-model="phone" placeholder="大陆手机号" style="width: 200px" maxLength="11"/>
+          <a-input v-model="phone" placeholder="大陆手机号" style="width: 200px"/>
         </div>
       </div>
       <div style="padding: 10px; display: flex; justify-content: space-between">
@@ -88,16 +88,22 @@
       <div style="padding: 10px; display: flex; justify-content: space-between">
         <div>
           <p>紧急联系人电话：</p>
-          <a-input v-model="emergencyPhone" placeholder="大陆手机号" style="width: 200px" maxLength="11"/>
+          <a-input v-model="emergencyPhone" placeholder="大陆手机号" style="width: 200px"/>
         </div>
         <div>
           <p>车牌号：</p>
-          <a-input v-model="carNumber" placeholder="车牌号" style="width: 200px" maxLength="8"/>
+          <a-input v-model="carNumber" placeholder="车牌号" style="width: 200px"/>
         </div>
         <div style="width: 200px">
           <p>是否愿意建立农民工账户：</p>
-          <a-radio default-checked v-model="laborAccount">是</a-radio>
-          <a-radio disabled>否</a-radio>
+          <a-radio-group v-model="laborAccount">
+            <a-radio value="true">
+              是
+            </a-radio>
+            <a-radio value="false">
+              否
+            </a-radio>
+          </a-radio-group>
         </div>
       </div>
       <div style="width: 300px; padding: 10px; display: flex; justify-content: space-between">
@@ -109,7 +115,7 @@
         </a-upload>
       </div>
       <div style="text-align: center">
-        <a-button style="width: 120px" type="primary" @click="Messagesubmit">提交</a-button>
+        <a-button style="width: 120px" type="primary" @click="messagesubmit">提交</a-button>
       </div>
 
     </div>
@@ -134,6 +140,7 @@ export default {
       activityLTo : '',
       avatar : '',
 
+      idNo: '',
       company: '',
       team: '',
       occupation: '',
@@ -143,9 +150,9 @@ export default {
       labelTag:'',
       emergencyPhone: '',
       carNumber: '',
-      laborAccount: '',
+      laborAccount: 'true',
 
-      dateFormat:'YYYY-MM-DDThh:mm'
+      dateFormat:'YYYY-MM-DDThh:mm',
     };
   },
   mounted() {
@@ -239,11 +246,14 @@ export default {
       console.log(date, dateString);
       this.outTime = dateString
     },
-    Messagesubmit(){
+    copy(){
+    },
+
+    messagesubmit(){
       //获取值
       console.log(this.company)
       console.log(this.team)
-      console.log(this.cardNo)
+      console.log(this.idNo)
       console.log(this.occupation)
       console.log(this.phone)
       console.log(this.inboundTime)
@@ -253,26 +263,26 @@ export default {
       console.log(this.carNumber)
       console.log(this.labelTag)
       //上传值
-      let fd = new FormData()
-      fd.append('card', this.cardNo)
-      fd.append('company', this.company)
-      fd.append('team', this.team)
-      fd.append('occupation', this.occupation)
-      fd.append('phone', this.phone)
-      fd.append('inboundTime', this.inboundTime)
-      fd.append('outTime', this.outTime)
-      fd.append('emergencyPhone', this.emergencyPhone)
-      fd.append('laborAccount', this.laborAccount)
-      // fd.append('carNumber', this.carNumber)
-      // fd.append('labelTag', this.labelTag)
-      this.$http.post("http://127.0.0.1:8888/v1/hr/employees/", fd).then(res =>{
-        const data = res.data;
-        alert('上传成功!')
-        console.log(data)
-      }).catch(err =>{
-        console.log(err);
-        alert('上传失败!请检查网络连接~')
-      });
+      // let fd = new FormData()
+      // fd.append('card', this.idNo)
+      // fd.append('company', this.company)
+      // fd.append('team', this.team)
+      // fd.append('occupation', this.occupation)
+      // fd.append('phone', this.phone)
+      // fd.append('inboundTime', this.inboundTime)
+      // fd.append('outTime', this.outTime)
+      // fd.append('emergencyPhone', this.emergencyPhone)
+      // fd.append('laborAccount', this.laborAccount)
+      // // fd.append('carNumber', this.carNumber)
+      // // fd.append('labelTag', this.labelTag)
+      // this.$http.post("http://127.0.0.1:8888/v1/hr/employees/", fd).then(res =>{
+      //   const data = res.data;
+      //   alert('上传成功!')
+      //   console.log(data)
+      // }).catch(err =>{
+      //   console.log(err);
+      //   alert('上传失败!请检查网络连接~')
+      // });
     }
   }
 }
