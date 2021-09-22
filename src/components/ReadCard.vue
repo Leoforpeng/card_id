@@ -21,6 +21,9 @@
     </div>
     <hr/>
     <div class="content2" style="height: 500px; width: 800px; display: flex; flex-direction: column; justify-content: space-around; background-color: #EBEBEB; text-align: justify; margin:0 auto;">
+      <div style=" display: flex; justify-content: center">
+        身份证号：<a-input v-model="idNo" placeholder="请粘贴身份证号" style="width: 200px;"/>
+      </div>
       <div style="padding: 10px; display: flex; justify-content: space-between">
         <div>
           <p>班组：</p>
